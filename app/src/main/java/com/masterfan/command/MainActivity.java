@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView resultTxt;
     private EditText edit;
 
+    private Button enabalBtn, disableBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +48,26 @@ public class MainActivity extends AppCompatActivity {
 
         edit = (EditText) findViewById(R.id.input_edit);
         resultTxt = (TextView) findViewById(R.id.resutl_txt);
+
+        enabalBtn = (Button) findViewById(R.id.enable_btn);
+        disableBtn= (Button) findViewById(R.id.disable_btn);
+        disableBtn.setEnabled(false);
+
+        enabalBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setEnabled(false);
+                adbStart();
+            }
+        });
+
+        disableBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setEnabled(false);
+                adbStop();
+            }
+        });
 
         edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -187,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
                 case ADB_START_END:
                     resultTxt.setText(resultTxt.getText().toString() + "processing success!" + "\n\n ");
                     edit.setEnabled(true);
+                    disableBtn.setEnabled(true);
                     break;
                 case ADB_STOP_BEGIN:
                     edit.setEnabled(false);
@@ -195,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case ADB_STOP_END:
                     edit.setEnabled(true);
+                    enabalBtn.setEnabled(true);
                     resultTxt.setText(resultTxt.getText().toString() + "processing success!" + "\n\n ");
                     break;
                 case 10:
